@@ -55,8 +55,13 @@
                     var endDate = arr[1].split("/");
                     startCalendar = new Date();
                     endCalendar = new Date();
-                    startCalendar.setFullYear(startDate[2], startDate[0] -1, startDate[1]);
-                    endCalendar.setFullYear(endDate[2], endDate[0] -1, endDate[1]);
+                    if(plugin.settings.monthFirst){
+                        startCalendar.setFullYear(startDate[2], startDate[0] -1, startDate[1]);
+                        endCalendar.setFullYear(endDate[2], endDate[0] -1, endDate[1]);
+                    }else{
+                        startCalendar.setFullYear(startDate[2], startDate[1] -1, startDate[0]);
+                        endCalendar.setFullYear(endDate[2], endDate[1] -1, endDate[0]);
+                    }
                     var calendarContainer = $('.' + plugin.settings.containerClass);
                     calendarContainer.replaceWith(getCalendarContainer(startCalendar, endCalendar));
                     changed = false;
