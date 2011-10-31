@@ -1,0 +1,10 @@
+Initialize the plugin using this method to prevent multiple instantiations
+
+$(document).ready(function() {
+	var myplugin = new $.dateRange($('input'));
+});
+
+* Will work on multiple fields without conflict
+* Lightweight, less than 200 line before minification
+* No dependencies on date.js or jQuery UI
+* Sample CSS included

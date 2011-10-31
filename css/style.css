@@ -1,0 +1,123 @@
+.calendarContainer {
+	padding: 10px 0 10px 10px;
+	float: left;
+	background: #D9D9D9;
+	position: absolute;
+	margin-top: 3px;
+	font-family : Sans-Serif;
+	font-size : 12px;
+}
+
+.calendarContainer, .calendar 
+{
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    
+    -webkit-box-shadow: 4px 4px 9px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow:    4px 4px 9px rgba(50, 50, 50, 0.5);
+    box-shadow:         4px 4px 9px rgba(50, 50, 50, 0.5);
+}
+
+.calendar {
+	position: relative;
+	margin-right: 10px;
+	float: left;
+}
+
+.selected {
+	background-color: #B0B0B0;
+	color: White;
+	font-weight: bold;
+	-webkit-box-shadow: inset 0px 0px 20px 0px #363636;
+    -moz-box-shadow: inset 0px 0px 20px 0px #363636;
+    box-shadow: inset 0px 0px 20px 0px #363636;
+}
+
+.disabled {
+	color: gray;
+}
+
+table {
+	table-layout: fixed;
+	border-collapse:collapse;
+	overflow: hidden;
+	background: #F7F7F0;
+	
+	-webkit-border-bottom-right-radius: 6px;
+    -webkit-border-bottom-left-radius: 6px;
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+   
+}
+
+td {
+	text-align: center;
+	width: 20px;
+	height: 20px;
+	border-top: 1px solid #D9D9D9;
+	border-right: 1px solid #D9D9D9;
+}
+
+td, th {
+	cursor: default;
+}
+
+th 
+{
+    text-align : center;
+}
+
+th abbr, td 
+{
+    letter-spacing: -1px;
+}
+
+td, th, caption, .prev, .next 
+{
+    -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   user-select: none;
+}
+
+.active:hover {
+	background-color: #BABABA;
+	cursor: pointer;
+}
+
+.prev, .next {
+	position: absolute;
+	cursor: pointer;
+	padding: 3px 6px;
+	font-size: 10px;
+}
+
+.prev:hover, .next:hover
+{
+    text-decoration: underline;
+}
+
+.next {
+	right: 0;
+}
+
+caption {
+	background: #F72D2D;
+	line-height: 20px;
+	text-align: center;
+	font-weight: bold;
+	
+	-webkit-border-top-left-radius: 6px;
+    -webkit-border-top-right-radius: 6px;
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+caption, .prev, .next {
+	color: white;
+}
