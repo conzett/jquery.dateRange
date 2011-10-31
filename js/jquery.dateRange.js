@@ -16,6 +16,7 @@
 			dayActiveClass : "active",
 			selectedClass : "selected",
 			dateSeparator : " - ",
+            digitSeparator : "/",
 			monthFirst : true,
 			readOnly : true,
         }
@@ -51,8 +52,8 @@
 				}else if(created && changed){
 
                     var arr = activeElement.val().split(plugin.settings.dateSeparator);
-                    var startDate = arr[0].split("/");
-                    var endDate = arr[1].split("/");
+                    var startDate = arr[0].split(plugin.settings.digitSeparator);
+                    var endDate = arr[1].split(plugin.settings.digitSeparator);
                     startCalendar = new Date();
                     endCalendar = new Date();
                     if(plugin.settings.monthFirst){
@@ -185,9 +186,9 @@
 		var getCalendarDate =  function (calendar) {
 			var calendarDate = "";
 			if(plugin.settings.monthFirst){
-				calendarDate += calendar.attr("data-month") + '/' + calendar.attr("data-day") + '/';
+				calendarDate += calendar.attr("data-month") + plugin.settings.digitSeparator + calendar.attr("data-day") + plugin.settings.digitSeparator;
 			}else{
-				calendarDate += calendar.attr("data-day") + '/' + calendar.attr("data-month") + '/';
+				calendarDate += calendar.attr("data-day") + plugin.settings.digitSeparator + calendar.attr("data-month") + plugin.settings.digitSeparator;
 			}
 			calendarDate +=	calendar.attr("data-year");
 			return calendarDate;
