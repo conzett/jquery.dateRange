@@ -29,6 +29,7 @@
             plugin.el = el;
 			
 			var onCalendar, activeElement, created = false;
+            var changed = false;
 			
 			if(plugin.settings.readOnly){
 				el.attr("readonly", "readonly");
@@ -36,16 +37,39 @@
 			
 			el.focus(function() {
 				activeElement = $(this);
-				if(created){
+                var startCalendar, endCalendar;                
+
+                var calendars = $('.'+plugin.settings.calendarClass);
+			    if(activeElement.val() && activeElement.val() != getCalendarDate(calendars.first()) + plugin.settings.dateSeparator + getCalendarDate(calendars.last())){
+                    changed = true;
+                }          
+
+				if(created && !changed){
+
 					$('.' + plugin.settings.containerClass).show();
-				}else{
-					var startCalendar = new Date();
-					var endCalendar = new Date();
+
+				}else if(created && changed){
+
+                    var arr = activeElement.val().split(plugin.settings.dateSeparator);
+                    var startDate = arr[0].split("/");
+                    var endDate = arr[1].split("/");
+                    startCalendar = new Date();
+                    endCalendar = new Date();
+                    startCalendar.setFullYear(startDate[2], startDate[0] -1, startDate[1]);
+                    endCalendar.setFullYear(endDate[2], endDate[0] -1, endDate[1]);
+                    var calendarContainer = $('.' + plugin.settings.containerClass);
+                    calendarContainer.replaceWith(getCalendarContainer(startCalendar, endCalendar));
+                    changed = false;
+
+                }else{
+
+					startCalendar = new Date();
+					endCalendar = new Date();
 					endCalendar.setMonth(startCalendar.getMonth()+1);
-					$('body').append('<div class="' + plugin.settings.containerClass + '">' +
-							getCalendar(startCalendar) + getCalendar(endCalendar) + '</div>');
+					$('body').append(getCalendarContainer(startCalendar, endCalendar));
 					created = true;
 				}
+
 				$('.' + plugin.settings.containerClass).css({
 						'left' : activeElement.offset().left, 'top' : (activeElement.offset().top + activeElement.outerHeight())
 				});
@@ -95,6 +119,11 @@
 				calendar.replaceWith(getCalendar(newCalendar));
 				updateValue(activeElement);
 			});
+        }
+
+        var getCalendarContainer = function(startCalendar, endCalendar) {
+            return '<div class="' + plugin.settings.containerClass + '">' +
+							getCalendar(startCalendar) + getCalendar(endCalendar) + '</div>';
         }
 
         var getCalendar = function(date) {
