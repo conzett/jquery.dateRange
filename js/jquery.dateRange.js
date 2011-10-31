@@ -18,7 +18,7 @@
 			dateSeparator : " - ",
             digitSeparator : "/",
 			monthFirst : true,
-			readOnly : true,
+			readOnly : true
         }
 
         var plugin = this;
