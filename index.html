@@ -24,10 +24,17 @@
     a { color: #000000; }
     .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
     .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
+    pre { background: #000; color: #fff; padding: 15px; overflow-x: scroll;}
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     .footer { text-align:center; padding-top:30px; font-style: italic; }
+    input {
+      width : 160px;
+      margin-left : 10px;
+    }
   </style>
+
+  <link rel="stylesheet" type="text/css" href="jquery.dateRange/css/style.css" />
+
 </head>
 
 <body>
@@ -46,7 +53,7 @@
       <span class="small">by <a href="https://github.com/conzett">conzett</a></span></h1>
 
     <div class="description">
-      A single field date range picker that doesn't require jQuery UI
+      A single field date range picker plugin with no other dependencies.
     </div>
     
       <p>
@@ -54,15 +61,35 @@
       </p>
 
       <h2>Demo</h2>
+
+      <label for="demo1">Date Range</label><input id="demo1"/>
     
       <h2>Dependencies</h2>
       <p>There are NO additional dependencies. (Other date-pickers often require Datejs or jQuery UI)</p>
     
-      <h2>Install</h2>
-      <p>Installation instructions here</p>
+      <h2>Initialize</h2>
+      <pre>
+{
+  days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+  months : [January","February","March","April","May","June","July","August","September","October","November","December"],
+  calendarClass : "calendar",
+  containerClass : "calendarContainer",
+  prevButtonText : 'Prev',
+  nextButtonText : 'Next',
+  prevButtonClass : 'prev',
+  nextButtonClass : 'next',
+  dayAbbrLength : 2, // E.g. Mo versus Mon
+  dayDisabledClass : "disabled",
+  dayActiveClass : "active",
+  selectedClass : "selected",
+  dateSeparator : " - ", // The separator between both date strings in the field
+  digitSeparator : "/", // The separator between the date digits, change if you want 10-19-2012 instead of 10/19/2012
+  monthFirst : true, // Default is US style month first, set to false for day first
+  readOnly : true // Sets the text fields so they can not be typed into
+}</pre>
     
       <h2>License</h2>
-      <p>License here</p>
+      <p>You may use this under the terms of either the MIT License or the GNU General Public License (GPL) Version 2.</p>
     
       <h2>Authors</h2>
       <p>Graham Conzett (conzett@gmail.com)</p>
@@ -86,5 +113,16 @@
     </div>
 
   </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+  <script src="jquery.dateRange/js/jquery.dateRange.js"></script>
+  <script>
+    $(document).ready(function() {
+      var myplugin = new $.dateRange($('input'),
+        {
+          prevButtonText: "◀",
+          nextButtonText: "▶"
+        });
+    });
+  </script>
 
 </body>
