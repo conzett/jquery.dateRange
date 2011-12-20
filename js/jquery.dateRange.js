@@ -1,3 +1,60 @@
+; (function ($, window, document, undefined) {
+
+    var pluginName = 'dateRange',
+        defaults = {
+            days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+			months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
+            calendar : '<table></table>',
+            calendarCaption : '<caption></caption>',
+            calendarRow : '<tr></tr>',
+            calendarHeader : '<thead></thead>',
+            calendarHeaderCell : '<th></th>',
+            calendarBody : '<tbody></tbody>',
+            calendarBodyCell : '<tbody></tbody>',
+        };
+
+    function Plugin(element, options) {
+        this.element = element;
+        this.options = $.extend({}, defaults, options);
+
+        this._defaults = defaults;
+        this._name = pluginName;
+
+        var workDate, dayCount, tempCalendar, tempDay, tempDate;
+
+        var generateCalendar = function(date) {
+            workDate =  new Date(date);
+            dayCount = 0;
+            tempCalendar = '';
+
+            tempDay = workDate.getDay();
+
+        }
+
+        this.element.open = function() {
+        }
+
+        this.element.close = function() {
+        }
+
+        this.init();
+    }
+
+    Plugin.prototype.init = function () {
+
+    };
+
+    $.fn[pluginName] = function (options) {
+        return this.each(function () {
+            if (!$.data(this, 'plugin_' + pluginName)) {
+                $.data(this, 'plugin_' + pluginName, new Plugin(this, options));
+            }
+        });
+    }
+
+})(jQuery, window, document);
+
+/*
 ;(function($) {
     $.dateRange = function(el, options) {
 
@@ -203,3 +260,5 @@
     }
 
 })(jQuery);
+
+*/
