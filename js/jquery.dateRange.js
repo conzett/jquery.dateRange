@@ -10,8 +10,16 @@
             calendarHeader : '<thead></thead>',
             calendarHeaderCell : '<th></th>',
             calendarBody : '<tbody></tbody>',
-            calendarBodyCell : '<tbody></tbody>',
+            calendarBodyCell : '<td></td>',
         };
+
+    Date.prototype.decrement = function(){
+    	this.setDate(this.getDate() - 1);
+    }
+    
+    Date.prototype.increment = function(){
+    	this.setDate(this.getDate() + 1);
+    }  
 
     function Plugin(element, options) {
         this.element = element;
@@ -19,15 +27,54 @@
 
         this._defaults = defaults;
         this._name = pluginName;
+        
+        var options = this.options;
 
-        var workDate, dayCount, tempCalendar, tempDay, tempDate;
+        var generateCalendar = function(selectedDate) {
+            workDate =  new Date(selectedDate), 
+            workRow = $(options.calendarRow),
+            dayCount = 0,
+            workCalendar = $(options.calendar),
+            workCalendarBody = $(options.calendarBody),
+            timeElement = '<time></time>'
+            workDay = (7 - workDate.getDay());
 
-        var generateCalendar = function(date) {
-            workDate =  new Date(date);
-            dayCount = 0;
-            tempCalendar = '';
+            workDate.setDate(1);
 
-            tempDay = workDate.getDay();
+            while(workDay > 0)
+            {
+            	workDate.decrement();
+            	workDay--;
+            }
+
+            while(true)
+            {
+            	workTime = $(timeElement).attr('datetime', workDate.toDateString()).html(workDate.getDate());
+            	workCell = $(options.calendarBodyCell).append(workTime);
+
+            	if(workDate.getMonth() !== selectedDate.getMonth()) workCell.attr('aria-disabled', 'true');
+            	
+            	workRow.append(workCell);
+            	workDate.increment();
+
+            	dayCount++;
+
+            	if(dayCount === 7)
+            	{
+            		$(workCalendarBody).append(workRow);
+            		workRow = $(options.calendarRow);
+            		dayCount = 0;
+
+            		if(workDate.getMonth() !== selectedDate.getMonth())
+            		{
+            			break;
+            		}
+            	}
+            }
+
+            workCalendar.append(workCalendarBody)
+
+            console.log(workCalendar);
 
         }
 
@@ -37,11 +84,15 @@
         this.element.close = function() {
         }
 
+        this.test = function() {
+        	generateCalendar(new Date());
+        }
+
         this.init();
     }
 
     Plugin.prototype.init = function () {
-
+    	this.test();
     };
 
     $.fn[pluginName] = function (options) {
@@ -50,7 +101,7 @@
                 $.data(this, 'plugin_' + pluginName, new Plugin(this, options));
             }
         });
-    }
+    }    
 
 })(jQuery, window, document);
 
