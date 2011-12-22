@@ -5,12 +5,14 @@
             days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
 			months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
             calendar : '<table></table>',
-            calendarCaption : '<caption></caption>',
-            calendarRow : '<tr></tr>',
-            calendarHeader : '<thead></thead>',
-            calendarHeaderCell : '<th></th>',
             calendarBody : '<tbody></tbody>',
             calendarBodyCell : '<td></td>',
+            calendarCaption : '<caption></caption>',            
+            calendarHeader : '<thead></thead>',
+            calendarHeaderCell : '<th></th>',
+            calendarNavigationNext : '<a>Next</a>',
+            calendarNavigationPrev : '<a>Prev</a>',
+            calendarRow : '<tr></tr>',
         };
 
     Date.prototype.decrement = function(){
@@ -28,19 +30,20 @@
         this._defaults = defaults;
         this._name = pluginName;
         
-        var options = this.options, container, over = false, open = false;
+        var options = this.options, container, i, over = false, open = false;
 
         function generateCalendar(selectedDate) {
             workDate =  new Date(selectedDate), 
             workRow = $(options.calendarRow),
             workCalendar = $(options.calendar),
             workCalendarBody = $(options.calendarBody),
-            timeElement = '<time></time>'
+            timeElement = '<time></time>',
+            abbrElement = '<abbr></abbr>',
             workDay = (7 - workDate.getDay());
 
             workDate.setDate(1);
 
-            while(workDay > 0)
+            while(workDay >= 0)
             {
             	workDate.decrement();
             	workDay--;
@@ -64,6 +67,13 @@
             	}
             }
 
+			for(i=0; i < options.days.length; i++){
+            	workAbbr = $(abbrElement).attr('title', options.days[i]).html(options.days[i].substring(0,2));
+            	workHeaderCell = $(options.calendarHeaderCell).append(workAbbr).attr('role', 'columnheader').attr('scope', 'col');
+            	workRow.append(workHeaderCell);
+            }
+            
+            workCalendar.append(workRow);
             return workCalendar.append(workCalendarBody);
         }
 
