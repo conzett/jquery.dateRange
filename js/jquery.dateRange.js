@@ -30,10 +30,9 @@
         
         var options = this.options;
 
-        var generateCalendar = function(selectedDate) {
+        function generateCalendar(selectedDate) {
             workDate =  new Date(selectedDate), 
             workRow = $(options.calendarRow),
-            dayOfWeek = 0,
             workCalendar = $(options.calendar),
             workCalendarBody = $(options.calendarBody),
             timeElement = '<time></time>'
@@ -61,11 +60,7 @@
             	{
             		$(workCalendarBody).append(workRow);
             		workRow = $(options.calendarRow);
-
-            		if(workDate.getMonth() !== selectedDate.getMonth())
-            		{
-            			break;
-            		}
+            		if(workDate.getMonth() !== selectedDate.getMonth()) break;
             	}
             }
 
