@@ -30,7 +30,7 @@
         this._defaults = defaults;
         this._name = pluginName;
         
-        var options = this.options, container, i, over = false, open = false;
+        var options = this.options, container, i, element, over = false, open = false;
 
         function generateCalendar(selectedDate) {
             workDate =  new Date(selectedDate), 
@@ -70,18 +70,18 @@
 			for(i=0; i < options.days.length; i++){
             	workAbbr = $(abbrElement).attr('title', options.days[i]).html(options.days[i].substring(0,2));
             	workHeaderCell = $(options.calendarHeaderCell).append(workAbbr).attr('role', 'columnheader').attr('scope', 'col');
-            	workRow.append(workHeaderCell);
+            	workCalendarHeader = $(options.calendarHeader).append(workRow.append(workHeaderCell));
             }
             
-            workCalendar.append(workRow);
+            workCalendar.append($(options.calendarCaption).html(options.months[selectedDate.getMonth()]));
+            workCalendar.append(workCalendarHeader);
             return workCalendar.append(workCalendarBody);
         }
 
         $(this.element).focus(function() {
         	if(!open){
-	        	var element = this;
+	        	element = this;
 	        	container = $(generateCalendar(new Date()));
-
 				container.hover(
 					function(){ over = true; },
 					function(){ over = false; $(element).focus(); }
