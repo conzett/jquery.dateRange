@@ -6,7 +6,15 @@
 <script>
 
 $(document).ready(function() {
-  $("input").dateRange();
+	var element = $("input").dateRange();
+
+	element.bind('open', function() {
+		console.log("open called");
+	});
+
+	element.bind('close', function() {
+		console.log("close called");
+	});
 });
 
 </script>

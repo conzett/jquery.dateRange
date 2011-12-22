@@ -28,7 +28,7 @@
         this._defaults = defaults;
         this._name = pluginName;
         
-        var options = this.options;
+        var options = this.options, container, over = false, open = false;
 
         function generateCalendar(selectedDate) {
             workDate =  new Date(selectedDate), 
@@ -64,27 +64,38 @@
             	}
             }
 
-            workCalendar.append(workCalendarBody)
-
-            console.log(workCalendar);
-
+            return workCalendar.append(workCalendarBody);
         }
 
-        this.element.open = function() {
-        }
+        $(this.element).focus(function() {
+        	if(!open){
+	        	var element = this;
+	        	container = $(generateCalendar(new Date()));
 
-        this.element.close = function() {
-        }
+				container.hover(
+					function(){ over = true; },
+					function(){ over = false; $(element).focus(); }
+				);
 
-        this.test = function() {
-        	generateCalendar(new Date());
-        }
+	        	$(this).after(container);
+	        	$(this).trigger('open');
+	        	open = true;
+        	}
+        });
+
+        $(this.element).blur(function() {
+        	if(open && !over){
+	        	container.remove();
+	        	$(this).trigger('close');
+	        	open = false;
+        	}
+        });
 
         this.init();
     }
 
     Plugin.prototype.init = function () {
-    	this.test();
+
     };
 
     $.fn[pluginName] = function (options) {
