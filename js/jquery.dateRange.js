@@ -33,7 +33,7 @@
         var generateCalendar = function(selectedDate) {
             workDate =  new Date(selectedDate), 
             workRow = $(options.calendarRow),
-            dayCount = 0,
+            dayOfWeek = 0,
             workCalendar = $(options.calendar),
             workCalendarBody = $(options.calendarBody),
             timeElement = '<time></time>'
@@ -57,13 +57,10 @@
             	workRow.append(workCell);
             	workDate.increment();
 
-            	dayCount++;
-
-            	if(dayCount === 7)
+            	if(workDate.getDay() === 0)
             	{
             		$(workCalendarBody).append(workRow);
             		workRow = $(options.calendarRow);
-            		dayCount = 0;
 
             		if(workDate.getMonth() !== selectedDate.getMonth())
             		{
