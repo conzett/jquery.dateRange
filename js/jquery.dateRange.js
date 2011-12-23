@@ -4,6 +4,8 @@
         defaults = {
             days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
 			months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
+			dateSeperator : '-',
+			seperator : '/',
             calendar : '<table></table>',
             calendarBody : '<tbody></tbody>',
             calendarBodyCell : '<td></td>',
@@ -30,7 +32,7 @@
         this._defaults = defaults;
         this._name = pluginName;
         
-        var options = this.options, container, i, element, over = false, open = false;
+        var options = this.options, container, i, element, dateRange, over = false, open = false;
 
         function generateCalendar(selectedDate) {
             workDate =  new Date(selectedDate), 
@@ -78,9 +80,32 @@
             return workCalendar.append(workCalendarBody);
         }
 
+        function parseRange(rangeString) {
+        	startDate = new Date(),
+        	endDate = new Date(),
+			rangeArray = rangeString.split(options.dateSeperator),
+			sDA = rangeArray[0].split(options.seperator),
+			eDA = rangeArray[1].split(options.seperator)
+
+			startDate.setMonth(sDA[0]-1);
+			endDate.setMonth(eDA[0]-1);
+
+			startDate.setDate(sDA[1]);
+			endDate.setDate(eDA[1]);
+			startDate.setFullYear(sDA[2]);
+			endDate.setFullYear(eDA[2]);
+        	return {startDate : startDate, endDate : endDate}
+        }
+
         $(this.element).focus(function() {
         	if(!open){
-	        	element = this;
+
+        		element = this;
+
+        		if($(element).val() !== ''){
+        			dateRange = parseRange($(this).val());	
+        		}
+	        	
 	        	container = $(generateCalendar(new Date()));
 				container.hover(
 					function(){ over = true; },
