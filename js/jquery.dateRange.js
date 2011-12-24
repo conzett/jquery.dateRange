@@ -35,17 +35,16 @@
         var options = this.options, container, i, element, dateRange, over = false, open = false;
 
         function generateCalendar(selectedDate) {
-            workDate =  new Date(selectedDate), 
+            workDate =  new Date(selectedDate),
+            workDate.setDate(1),
             workRow = $(options.calendarRow),
             workCalendar = $(options.calendar),
             workCalendarBody = $(options.calendarBody),
             timeElement = '<time></time>',
             abbrElement = '<abbr></abbr>',
-            workDay = (7 - workDate.getDay());
+            workDay = workDate.getDay();
 
-            workDate.setDate(1);
-
-            while(workDay >= 0)
+            while(workDay > 0)
             {
             	workDate.decrement();
             	workDay--;
@@ -57,7 +56,7 @@
             	workCell = $(options.calendarBodyCell).append(workTime);
 
             	if(workDate.getMonth() !== selectedDate.getMonth()) workCell.attr('aria-disabled', 'true');
-            	
+
             	workRow.append(workCell);
             	workDate.increment();
 
@@ -130,7 +129,7 @@
     }
 
     Plugin.prototype.init = function () {
-
+    	
     };
 
     $.fn[pluginName] = function (options) {
