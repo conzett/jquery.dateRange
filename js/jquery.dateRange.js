@@ -53,11 +53,13 @@
 
             while(true)
             {
+            	ariaDisabled = false;
             	workTime = $(timeElement).attr('datetime', workDate.toDateString()).html(workDate.getDate());
             	workCell = $(options.calendarBodyCell).append(workTime);
 
-            	if(workDate.getMonth() !== selectedDate.getMonth()) workCell.attr('aria-disabled', 'true');
+            	if(workDate.getMonth() !== selectedDate.getMonth()) ariaDisabled = true;
 
+            	workCell.attr('aria-disabled', ariaDisabled);
             	workCell.on("click", function(event){
 					$(element).trigger('selected');
 				})
