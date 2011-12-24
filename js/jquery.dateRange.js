@@ -6,6 +6,7 @@
 			months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
 			dateSeperator : '-',
 			seperator : '/',
+			rangePicker : true,
             calendar : '<table></table>',
             calendarBody : '<tbody></tbody>',
             calendarBodyCell : '<td></td>',
@@ -56,6 +57,10 @@
             	workCell = $(options.calendarBodyCell).append(workTime);
 
             	if(workDate.getMonth() !== selectedDate.getMonth()) workCell.attr('aria-disabled', 'true');
+
+            	workCell.on("click", function(event){
+					$(element).trigger('selected');
+				})
 
             	workRow.append(workCell);
             	workDate.increment();
