@@ -56,26 +56,29 @@
             	ariaDisabled = false, ariaSelected = false;
             	workTime = $(timeElement).attr('datetime', workDate.toDateString()).html(workDate.getDate());
             	workCell = $(options.calendarBodyCell).append(workTime);
-
-            	if(workDate.getMonth() !== selectedDate.getMonth()) ariaDisabled = true;
+            	 
             	if(workDate.getDate() === selectedDate.getDate()) ariaSelected = true;
 
-            	workCell.attr('aria-disabled', ariaDisabled);
-            	workCell.attr('aria-selected', ariaSelected);
-
-            	workCell.on("click", function(event){            		           		
-            		$(this).parent().parent().find('[aria-selected="true"]').attr("aria-selected", "false");
-            		$(this).attr("aria-selected", "true");
-            		if(options.rangePicker){
-            			parent = $(this).parent().parent().parent().parent();
-            			startDate = parent.children().first().find('[aria-selected="true"] time').attr('datetime');
-            			endDate = parent.children(':nth-child(2)').find('[aria-selected="true"] time').attr('datetime');
-            			$(element).val(startDate + options.dateSeperator + endDate);
-            		}else{
-            			$(element).val($(this).find("time").attr("datetime"));
-            		}           		
-					$(element).trigger('selected');
-				});
+                if(workDate.getMonth() !== selectedDate.getMonth()){
+                    workCell.attr('aria-disabled', "true");
+                }else{
+                    workCell.attr('aria-disabled', "false");
+                    workCell.on("click", function(event){                                   
+                        $(this).parent().parent().find('[aria-selected="true"]').attr("aria-selected", "false");
+                        $(this).attr("aria-selected", "true");
+                        if(options.rangePicker){
+                            parent = $(this).parent().parent().parent().parent();
+                            startDate = parent.children().first().find('[aria-selected="true"] time').attr('datetime');
+                            endDate = parent.children(':nth-child(2)').find('[aria-selected="true"] time').attr('datetime');
+                            $(element).val(startDate + options.dateSeperator + endDate);
+                        }else{
+                            $(element).val($(this).find("time").attr("datetime"));
+                        }                   
+                        $(element).trigger('selected');
+                    });
+                }
+                
+                workCell.attr('aria-selected', ariaSelected);
 
             	workRow.append(workCell);
             	workDate.increment();
