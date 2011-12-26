@@ -60,7 +60,7 @@
 
             	workCell.attr('aria-disabled', ariaDisabled);
             	workCell.on("click", function(event){
-            		$(element).val(workCell.find("time").attr("datetime"));
+            		$(element).val($(this).find("time").attr("datetime"));
 					$(element).trigger('selected');
 				})
 
@@ -97,12 +97,17 @@
         	if(!open){
 
         		element = this;
+        		startDate = new Date();
 
         		if($(element).val() !== ''){
-        			dateRange = parseRange($(this).val());	
+        			if(options.rangePicker){
+        				dateRange = parseRange($(this).val());
+        			}else{
+        				startDate = new Date(Date.parse($(this).val()));
+        			}        				
         		}
 	        	
-	        	container = $(generateCalendar(new Date()));
+	        	container = $(generateCalendar(startDate));
 				container.hover(
 					function(){ over = true; },
 					function(){ over = false; $(element).focus(); }
