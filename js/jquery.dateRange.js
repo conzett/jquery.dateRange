@@ -13,8 +13,8 @@
             calendarContainer : '<div id="container"></div>',         
             calendarHeader : '<thead></thead>',
             calendarHeaderCell : '<th></th>',
-            calendarNavigationNext : '<a>Next</a>',
-            calendarNavigationPrev : '<a>Prev</a>',
+            calendarNavigationNext : '<span class="next">Next</span>',
+            calendarNavigationPrev : '<span class="prev">Prev</span>',
             calendarRow : '<tr></tr>',
         };
 
@@ -93,8 +93,26 @@
             	workHeaderCell = $(options.calendarHeaderCell).append(workAbbr).attr('role', 'columnheader').attr('scope', 'col');
             	workCalendarHeader = $(options.calendarHeader).append(workRow.append(workHeaderCell));
             }
+
+            workNextButton = $(options.calendarNavigationNext).attr('role', 'button');
+            workPrevButton = $(options.calendarNavigationPrev).attr('role', 'button');
+
+            workPrevButton.on("click", function(){
+            	var newDate = new Date(selectedDate);
+            	newDate.setMonth(selectedDate.getMonth() -1);
+            	$(this).parent().parent().replaceWith(generateCalendar(newDate));
+            });
+
+            workNextButton.on("click", function(){
+            	var newDate = new Date(selectedDate);
+            	newDate.setMonth(selectedDate.getMonth() +1);
+            	$(this).parent().parent().replaceWith(generateCalendar(newDate));
+            });
             
-            workCalendar.append($(options.calendarCaption).html(options.months[selectedDate.getMonth()]));
+            workCaption = $(options.calendarCaption).html(options.months[selectedDate.getMonth()]);
+            workCaption.prepend(workNextButton);
+            workCaption.prepend(workPrevButton);
+            workCalendar.append(workCaption);
             workCalendar.append(workCalendarHeader);
             return workCalendar.append(workCalendarBody);
         }

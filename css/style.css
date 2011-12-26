@@ -127,6 +127,10 @@ th abbr
 	right: 0;
 }
 
+.prev {
+	left: 0;
+}
+
 caption {
 	background: #f6f6f7;
 	background: -moz-linear-gradient(top,  #f6f6f7 0%, #e5e5e8 100%);
