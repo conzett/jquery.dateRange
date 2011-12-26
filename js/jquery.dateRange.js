@@ -52,17 +52,26 @@
 
             while(true)
             {
-            	ariaDisabled = false;
+            	ariaDisabled = false, ariaSelected = false;
             	workTime = $(timeElement).attr('datetime', workDate.toDateString()).html(workDate.getDate());
             	workCell = $(options.calendarBodyCell).append(workTime);
 
             	if(workDate.getMonth() !== selectedDate.getMonth()) ariaDisabled = true;
+            	if(workDate.getDate() === selectedDate.getDate()) ariaSelected = true;
 
             	workCell.attr('aria-disabled', ariaDisabled);
+            	workCell.attr('aria-selected', ariaSelected);
+
             	workCell.on("click", function(event){
             		$(element).val($(this).find("time").attr("datetime"));
+            		$(this).parent().parent().find('[aria-selected="true"]').attr("aria-selected", "false");
+            		$(this).attr("aria-selected", "true");            		
 					$(element).trigger('selected');
-				})
+				});
+
+				if(workDate.getDate() === selectedDate.getDate()){
+					
+				}
 
             	workRow.append(workCell);
             	workDate.increment();

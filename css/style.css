@@ -59,7 +59,7 @@ th, .prev, .next {
 	font-size : 10px;
 }
 
-.selected {
+[aria-selected="true"] {
 	background-color: #1980e5;
 	color: White;
 	font-weight: bold;
