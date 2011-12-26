@@ -101,12 +101,14 @@
             	var newDate = new Date(selectedDate);
             	newDate.setMonth(selectedDate.getMonth() -1);
             	$(this).parent().parent().replaceWith(generateCalendar(newDate));
+            	$(this).trigger('previous');
             });
 
             workNextButton.on("click", function(){
             	var newDate = new Date(selectedDate);
             	newDate.setMonth(selectedDate.getMonth() +1);
             	$(this).parent().parent().replaceWith(generateCalendar(newDate));
+            	$(this).trigger('next');
             });
             
             workCaption = $(options.calendarCaption).html(options.months[selectedDate.getMonth()]);
