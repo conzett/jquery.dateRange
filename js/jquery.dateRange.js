@@ -57,7 +57,8 @@
             	workTime = $(timeElement).attr('datetime', workDate.toDateString()).html(workDate.getDate());
             	workCell = $(options.calendarBodyCell).append(workTime);
             	 
-            	if(workDate.getDate() === selectedDate.getDate()) ariaSelected = true;
+            	if((workDate.getDate() === selectedDate.getDate()) &&
+                    workDate.getMonth() === selectedDate.getMonth()) ariaSelected = true;
 
                 if(workDate.getMonth() !== selectedDate.getMonth()){
                     workCell.attr('aria-disabled', "true");
