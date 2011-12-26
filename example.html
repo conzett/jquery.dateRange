@@ -1,4 +1,9 @@
 <link href="css/style.css" media="screen" rel="stylesheet" type="text/css" />
+<style>
+	input {
+		width : 300px;
+	}
+</style>
 
 <input type="text"></input>
 
@@ -8,7 +13,7 @@
 <script>
 
 $(document).ready(function() {
-	var element = $("input").dateRange({ rangePicker : false });
+	var element = $("input").dateRange({ rangePicker : true });
 
 	/*
 	element.bind('open', function() {
@@ -17,16 +22,11 @@ $(document).ready(function() {
 
 	element.bind('close', function() {
 		console.log("close called");
-	});
-	*/
+	});	
 
 	element.on('selected', function() {
 		console.log("selected called");
-	});
-
-	var date = new Date(Date.parse("1/15/1986"));
-
-	console.log(date.toString());
+	});*/
 
 });
 

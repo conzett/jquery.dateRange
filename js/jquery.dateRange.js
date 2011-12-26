@@ -9,7 +9,8 @@
             calendar : '<table></table>',
             calendarBody : '<tbody></tbody>',
             calendarBodyCell : '<td></td>',
-            calendarCaption : '<caption></caption>',            
+            calendarCaption : '<caption></caption>',
+            calendarContainer : '<div id="container"></div>',         
             calendarHeader : '<thead></thead>',
             calendarHeaderCell : '<th></th>',
             calendarNavigationNext : '<a>Next</a>',
@@ -62,16 +63,19 @@
             	workCell.attr('aria-disabled', ariaDisabled);
             	workCell.attr('aria-selected', ariaSelected);
 
-            	workCell.on("click", function(event){
-            		$(element).val($(this).find("time").attr("datetime"));
+            	workCell.on("click", function(event){            		           		
             		$(this).parent().parent().find('[aria-selected="true"]').attr("aria-selected", "false");
-            		$(this).attr("aria-selected", "true");            		
+            		$(this).attr("aria-selected", "true");
+            		if(options.rangePicker){
+            			parent = $(this).parent().parent().parent().parent();
+            			startDate = parent.children().first().find('[aria-selected="true"] time').attr('datetime');
+            			endDate = parent.children(':nth-child(2)').find('[aria-selected="true"] time').attr('datetime');
+            			$(element).val(startDate + options.dateSeperator + endDate);
+            		}else{
+            			$(element).val($(this).find("time").attr("datetime"));
+            		}           		
 					$(element).trigger('selected');
 				});
-
-				if(workDate.getDate() === selectedDate.getDate()){
-					
-				}
 
             	workRow.append(workCell);
             	workDate.increment();
@@ -107,6 +111,9 @@
 
         		element = this;
         		startDate = new Date();
+        		endDate = new Date();
+        		endDate.setMonth(startDate.getMonth() +1);
+        		dateRange = {startDate : startDate, endDate : endDate};
 
         		if($(element).val() !== ''){
         			if(options.rangePicker){
@@ -115,8 +122,15 @@
         				startDate = new Date(Date.parse($(this).val()));
         			}        				
         		}
+
+        		if(options.rangePicker){
+        			container = $(options.calendarContainer);
+        			container.append(generateCalendar(dateRange.startDate));
+        			container.append(generateCalendar(dateRange.endDate));
+        		}else{
+        			container = $(generateCalendar(startDate));
+        		}	        	
 	        	
-	        	container = $(generateCalendar(startDate));
 				container.hover(
 					function(){ over = true; },
 					function(){ over = false; $(element).focus(); }
