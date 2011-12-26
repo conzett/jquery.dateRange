@@ -6,6 +6,7 @@
 			months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
 			dateSeperator : '-',
 			rangePicker : true,
+            readOnly : true,
             calendar : '<table></table>',
             calendarBody : '<tbody></tbody>',
             calendarBodyCell : '<td></td>',
@@ -179,7 +180,9 @@
     }
 
     Plugin.prototype.init = function () {
-    	
+    	if(this.options.readOnly){
+            $(this.element).attr("readonly", "readonly");
+        }
     };
 
     $.fn[pluginName] = function (options) {
