@@ -5,7 +5,6 @@
             days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
 			months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
 			dateSeperator : '-',
-			seperator : '/',
 			rangePicker : true,
             calendar : '<table></table>',
             calendarBody : '<tbody></tbody>',
@@ -61,6 +60,7 @@
 
             	workCell.attr('aria-disabled', ariaDisabled);
             	workCell.on("click", function(event){
+            		$(element).val(workCell.find("time").attr("datetime"));
 					$(element).trigger('selected');
 				})
 
@@ -87,19 +87,9 @@
         }
 
         function parseRange(rangeString) {
-        	startDate = new Date(),
-        	endDate = new Date(),
-			rangeArray = rangeString.split(options.dateSeperator),
-			sDA = rangeArray[0].split(options.seperator),
-			eDA = rangeArray[1].split(options.seperator)
-
-			startDate.setMonth(sDA[0]-1);
-			endDate.setMonth(eDA[0]-1);
-
-			startDate.setDate(sDA[1]);
-			endDate.setDate(eDA[1]);
-			startDate.setFullYear(sDA[2]);
-			endDate.setFullYear(eDA[2]);
+			rangeArray = rangeString.split(options.dateSeperator);
+			startDate = new Date(Date.parse(rangeArray[0].split(options.seperator)));
+			endDate  = new Date(Date.parse(rangeArray[1].split(options.seperator)));			
         	return {startDate : startDate, endDate : endDate}
         }
 
