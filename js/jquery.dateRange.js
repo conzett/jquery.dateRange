@@ -116,7 +116,8 @@
             workCaption.prepend(workPrevButton);
             workCalendar.append(workCaption);
             workCalendar.append(workCalendarHeader);
-            return workCalendar.append(workCalendarBody);
+            var test = workCalendar.append(workCalendarBody);
+            return test;
         }
 
         function parseRange(rangeString) {
