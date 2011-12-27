@@ -4,7 +4,7 @@
         defaults = {
             days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
 			months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
-			dateSeperator : '-',
+			dateSeperator : ' - ',
 			rangePicker : true,
             readOnly : true,
             calendar : '<table></table>',
@@ -14,8 +14,8 @@
             calendarContainer : '<div id="container"></div>',         
             calendarHeader : '<thead></thead>',
             calendarHeaderCell : '<th></th>',
-            calendarNavigationNext : '<span class="next">Next</span>',
-            calendarNavigationPrev : '<span class="prev">Prev</span>',
+            calendarNavigationNext : '<span class="next" title="Next">&#9654;</span>',
+            calendarNavigationPrev : '<span class="prev" title="Previous">&#9664;</span>',
             calendarRow : '<tr></tr>',
         };
 
