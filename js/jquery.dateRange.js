@@ -11,7 +11,7 @@
             calendarBody : '<tbody></tbody>',
             calendarBodyCell : '<td></td>',
             calendarCaption : '<caption></caption>',
-            calendarContainer : '<div id="container"></div>',         
+            calendarContainer : '<div id="calendar-container"></div>',         
             calendarHeader : '<thead></thead>',
             calendarHeaderCell : '<th></th>',
             calendarNavigationNext : '<span class="next" title="Next">&#9654;</span>',
