@@ -69,24 +69,23 @@
     
       <h2>Initialize</h2>
       <pre>
-{
+defaults = {
   days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-  months : [January","February","March","April","May","June","July","August","September","October","November","December"],
-  calendarClass : "calendar",
-  containerClass : "calendarContainer",
-  prevButtonText : 'Prev',
-  nextButtonText : 'Next',
-  prevButtonClass : 'prev',
-  nextButtonClass : 'next',
-  dayAbbrLength : 2, // E.g. Mo versus Mon
-  dayDisabledClass : "disabled",
-  dayActiveClass : "active",
-  selectedClass : "selected",
-  dateSeparator : " - ", // The separator between both date strings in the field
-  digitSeparator : "/", // The separator between the date digits, change if you want 10-19-2012 instead of 10/19/2012
-  monthFirst : true, // Default is US style month first, set to false for day first
-  readOnly : true // Sets the text fields so they can not be typed into
-}</pre>
+  months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
+  dateSeperator : ' - ',
+  rangePicker : true,
+  readOnly : true,
+  calendar : '&lt;table&gt;&lt;/table&gt;',
+  calendarBody : '&lt;tbody&gt;&lt;/tbody&gt;',
+  calendarBodyCell : '&lt;td&gt;&lt;/td&gt;',
+  calendarCaption : '&lt;caption&gt;&lt;/caption&gt;',
+  calendarContainer : '&lt;div id="calendar-container"&gt;&lt;/div&gt;',         
+  calendarHeader : '&lt;thead&gt;&lt;/thead&gt;',
+  calendarHeaderCell : '&lt;th&gt;&lt;/th&gt;',
+  calendarNavigationNext : '&lt;span class="next" title="Next"&gt;&#9654;&lt;/span&gt;',
+  calendarNavigationPrev : '&lt;span class="prev" title="Previous"&gt;&#9664;&lt;/span&gt;',
+  calendarRow : '&lt;tr&gt;&lt;/tr&gt;'
+};</pre>
     
       <h2>License</h2>
       <p>You may use this under the terms of either the MIT License or the GNU General Public License (GPL) Version 2.</p>
