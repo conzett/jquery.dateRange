@@ -16,7 +16,7 @@
             calendarHeaderCell : '<th></th>',
             calendarNavigationNext : '<span class="next" title="Next">&#9654;</span>',
             calendarNavigationPrev : '<span class="prev" title="Previous">&#9664;</span>',
-            calendarRow : '<tr></tr>',
+            calendarRow : '<tr></tr>'
         };
 
     Date.prototype.decrement = function(){
