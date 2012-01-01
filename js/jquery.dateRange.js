@@ -65,16 +65,17 @@
                     workCell.attr('aria-disabled', "true");
                 }else{
                     workCell.attr('aria-disabled', "false");
-                    workCell.on("click", function(event){                                   
-                        $(this).parent().parent().find('[aria-selected="true"]').attr("aria-selected", "false");
-                        $(this).attr("aria-selected", "true");
+                    workCell.on("click", function(event){
+                        var userSelectedDate = $(this).find("time").attr("datetime");                              
+                        $(this).parent().parent().attr("data-selected-date", userSelectedDate).find('[aria-selected="true"]').attr("aria-selected", "false");
+                        $(this).attr("aria-selected", "true");                        
                         if(options.rangePicker){
                             parent = $(this).parent().parent().parent().parent();
                             startDate = parent.children().first().find('[aria-selected="true"] time').attr('datetime');
                             endDate = parent.children(':nth-child(2)').find('[aria-selected="true"] time').attr('datetime');
                             $(element).val(startDate + options.dateSeperator + endDate);
                         }else{
-                            $(element).val($(this).find("time").attr("datetime"));
+                            $(element).val(userSelectedDate);
                         }                   
                         $(element).trigger('selected');
                     });
@@ -103,17 +104,17 @@
             workPrevButton = $(options.calendarNavigationPrev).attr('role', 'button');
 
             workPrevButton.on("click", function(){
-            	var newDate = new Date(selectedDate);
-            	newDate.setMonth(selectedDate.getMonth() -1);
-            	$(this).parent().parent().replaceWith(generateCalendar(newDate));
-            	$(this).trigger('previous');
+                var newDate = new Date(selectedDate);
+                newDate.setMonth(selectedDate.getMonth() -1);
+                $(this).parent().parent().replaceWith(generateCalendar(newDate));
+                $(this).trigger('previous');
             });
 
             workNextButton.on("click", function(){
-            	var newDate = new Date(selectedDate);
-            	newDate.setMonth(selectedDate.getMonth() +1);
-            	$(this).parent().parent().replaceWith(generateCalendar(newDate));
-            	$(this).trigger('next');
+                var newDate = new Date(selectedDate);
+                newDate.setMonth(selectedDate.getMonth() +1);                
+                $(this).parent().parent().replaceWith(generateCalendar(newDate));
+                $(this).trigger('next');
             });
             
             workCaption = $(options.calendarCaption).html(options.months[selectedDate.getMonth()]);
@@ -121,8 +122,8 @@
             workCaption.prepend(workPrevButton);
             workCalendar.append(workCaption);
             workCalendar.append(workCalendarHeader);
-            var test = workCalendar.append(workCalendarBody);
-            return test;
+            workCalendar.attr("data-selected-date", selectedDate.toDateString());
+            return workCalendar.append(workCalendarBody);
         }
 
         function parseRange(rangeString) {
