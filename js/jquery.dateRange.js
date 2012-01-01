@@ -65,9 +65,8 @@
                     workCell.attr('aria-disabled', "true");
                 }else{
                     workCell.attr('aria-disabled', "false");
-                    workCell.on("click", function(event){
-                        var userSelectedDate = $(this).find("time").attr("datetime");                              
-                        $(this).parent().parent().attr("data-selected-date", userSelectedDate).find('[aria-selected="true"]').attr("aria-selected", "false");
+                    workCell.on("click", function(event){                           
+                        $(this).parent().parent().find('[aria-selected="true"]').attr("aria-selected", "false");
                         $(this).attr("aria-selected", "true");                        
                         if(options.rangePicker){
                             parent = $(this).parent().parent().parent().parent();
@@ -75,7 +74,7 @@
                             endDate = parent.children(':nth-child(2)').find('[aria-selected="true"] time').attr('datetime');
                             $(element).val(startDate + options.dateSeperator + endDate);
                         }else{
-                            $(element).val(userSelectedDate);
+                            $(element).val($(this).find("time").attr("datetime"));
                         }                   
                         $(element).trigger('selected');
                     });
@@ -104,14 +103,14 @@
             workPrevButton = $(options.calendarNavigationPrev).attr('role', 'button');
 
             workPrevButton.on("click", function(){
-                var newDate = new Date(selectedDate);
+                var newDate = new Date($(this).parent().parent().find('[aria-selected="true"] time').attr('datetime'));
                 newDate.setMonth(selectedDate.getMonth() -1);
                 $(this).parent().parent().replaceWith(generateCalendar(newDate));
                 $(this).trigger('previous');
             });
 
             workNextButton.on("click", function(){
-                var newDate = new Date(selectedDate);
+                var newDate = new Date($(this).parent().parent().find('[aria-selected="true"] time').attr('datetime'));
                 newDate.setMonth(selectedDate.getMonth() +1);                
                 $(this).parent().parent().replaceWith(generateCalendar(newDate));
                 $(this).trigger('next');
@@ -122,7 +121,6 @@
             workCaption.prepend(workPrevButton);
             workCalendar.append(workCaption);
             workCalendar.append(workCalendarHeader);
-            workCalendar.attr("data-selected-date", selectedDate.toDateString());
             return workCalendar.append(workCalendarBody);
         }
 
