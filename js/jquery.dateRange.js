@@ -116,7 +116,7 @@
                 $(this).trigger('next');
             });
             
-            workCaption = $(options.calendarCaption).html(options.months[selectedDate.getMonth()]);
+            workCaption = $(options.calendarCaption).html(options.months[selectedDate.getMonth()] + ' ' + selectedDate.getFullYear());
             workCaption.prepend(workNextButton);
             workCaption.prepend(workPrevButton);
             workCalendar.append(workCaption);
