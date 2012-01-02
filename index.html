@@ -28,7 +28,7 @@
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     .footer { text-align:center; padding-top:30px; font-style: italic; }
     input {
-      width : 160px;
+      width : 210px;
       margin-left : 10px;
     }
   </style>
@@ -53,23 +53,37 @@
       <span class="small">by <a href="https://github.com/conzett">conzett</a></span></h1>
 
     <div class="description">
-      A single field date range picker plugin with no other dependencies.
+      A single field date range picker plugin.
     </div>
     
       <p>
-      jQuery.dateRange is a jQuery plugin that provides an interface for picking a range of dates for a single text field. The generated markup is clean and accessible with aria roles and lean markup. A simple default style is included (modeled after the iOS calendar).
+      jQuery.dateRange is a jQuery plugin that provides an interface for picking a range of dates for a single text field. The generated markup is clean, accessible, and highly customizable.
       </p>
 
       <h2>Demo</h2>
-
       <label for="demo1">Date Range</label><input id="demo1"/>
+
+      <h2>Features</h2>
+      <ul>
+        <li>No external dependancies other than jQuery</li>
+        <li>Adds WAI-ARIA roles</li>
+        <li>Use as either a date picker or the default range picker</li>
+        <li>Example CSS included</li>
+        <li>Customize any piece of generated markup</li>
+      </ul>
     
-      <h2>Dependencies</h2>
-      <p>There are NO additional dependencies. (Other date-pickers often require Datejs or jQuery UI)</p>
-    
-      <h2>Initialize</h2>
+      <h2>Use</h2>
+
+      <h3>Initialization</h3>
       <pre>
-defaults = {
+&lt;script&gt;
+  $(document).ready(function() {
+    $("#demo1").dateRange();
+  });
+&lt;/script&gt;</pre>
+      <h3>Options</h3>
+    <pre>
+{
   days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
   months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
   dateSeperator : ' - ',
@@ -85,7 +99,18 @@ defaults = {
   calendarNavigationNext : '&lt;span class="next" title="Next"&gt;&#9654;&lt;/span&gt;',
   calendarNavigationPrev : '&lt;span class="prev" title="Previous"&gt;&#9664;&lt;/span&gt;',
   calendarRow : '&lt;tr&gt;&lt;/tr&gt;'
-};</pre>
+}</pre>
+
+<table>
+  <thead>
+    <tr><th>Option</th><th>Explanation</th></tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+      <h2>Dependencies</h2>
+      <p>There are NO additional dependencies. (Other date-pickers often require Datejs or jQuery UI)</p>
     
       <h2>License</h2>
       <p>You may use this under the terms of either the MIT License or the GNU General Public License (GPL) Version 2.</p>
