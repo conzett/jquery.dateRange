@@ -136,6 +136,28 @@
 
 <p>The other options change the default markup of the calendar, you can use divs or spans instead of the table markup.</p>
 
+      <h2>Custom Events</h2>
+      <p>jQuery.dateRange will raise different custom events that can be bound to these are:</p>
+      <ul>
+        <li>open</li>
+        <li>close</li>
+        <li>previous</li>
+        <li>next</li>
+        <li>selected</li>
+      </ul>
+      <p>They can be bound to either using jQuery's <code>bind</code> or as of 1.7 <code>on</code>.</p>
+      <pre>
+$(document).ready(function() {
+
+  var target = $("input").dateRange();
+
+  target.bind('selected', function() {
+    alert('User selected a date');
+  });
+
+});
+</pre>
+
       <h2>Dependencies</h2>
       <p>There are NO additional dependencies. (Other date-pickers often require Datejs or jQuery UI)</p>
 
