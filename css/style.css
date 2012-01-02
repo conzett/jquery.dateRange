@@ -7,7 +7,7 @@
 	background-color : white;
 }
 
-table {
+#calendar-container table {
 	position: relative;
 	margin-right: 15px;
 	float: left;
@@ -17,9 +17,7 @@ table {
 	-webkit-box-shadow: 0px 4px 8px 0px #a2a2a2;
 	-moz-box-shadow: 0px 4px 8px 0px #a2a2a2;
 	box-shadow: 0px 4px 8px 0px #a2a2a2;
-}
 
-table {
 	font-family : "Helvetica Neue" Arial, Sans-Serif;
 	table-layout: fixed;
 	overflow: hidden;
@@ -34,7 +32,7 @@ table {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e2e5', endColorstr='#c8c8cd',GradientType=0 );	
 }
 
-th {
+#calendar-container th {
 	background: #e3e3e6;
 	background: -moz-linear-gradient(top,  #e3e3e6 0%, #ccccd1 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e3e3e6), color-stop(100%,#ccccd1));
@@ -45,7 +43,8 @@ th {
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e3e3e6', endColorstr='#ccccd1',GradientType=0 );
 }
 
-caption, td, th, .prev, .next {
+#calendar-container caption, #calendar-container td,
+#calendar-container th, #calendar-container .prev, #calendar-container .next {
 	color: rgb(55,68,82);
 	-moz-user-select: -moz-none;
 	-khtml-user-select: none;
@@ -53,16 +52,16 @@ caption, td, th, .prev, .next {
 	user-select: none;
 }
 
-caption, td {
+#calendar-container caption, #calendar-container td {
 	font-size : 11px;
 	font-weight : bold;
 }
 
-th, .prev, .next {
+#calendar-container th, #calendar-container .prev, #calendar-container .next {
 	font-size : 10px;
 }
 
-[aria-selected="true"] {
+#calendar-container [aria-selected="true"] {
 	background-color: #1980e5;
 	color: White;
 	font-weight: bold;
@@ -76,11 +75,11 @@ th, .prev, .next {
 	filter: dropshadow(color=#364F72, offx=1, offy=1);
 }
 
-[aria-disabled="true"] {
+#calendar-container [aria-disabled="true"] {
 	color: #8c929a;
 }
 
-td, th {
+#calendar-container td, #calendar-container th {
 	height : 20px;
 	width: 20px;
 	text-align : center;
@@ -88,18 +87,18 @@ td, th {
 	border-bottom: 1px solid rgb(165,169,177);
 }
 
-td {
+#calendar-container td {
 	border-top: 1px solid rgb(241,241,241);
 	border-right: 1px solid rgb(241,241,241);
 	border-left: 1px solid rgb(165,169,177);	
 }
 
-th abbr 
+#calendar-container th abbr 
 {
     letter-spacing: -1px;
 }
 
-[aria-disabled="false"]:hover {
+#calendar-container [aria-disabled="false"]:hover {
 	background: #6db3f2;
 	background: -moz-linear-gradient(top,  #6db3f2 0%, #54a3ee 50%, #3690f0 51%, #1e69de 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6db3f2), color-stop(50%,#54a3ee), color-stop(51%,#3690f0), color-stop(100%,#1e69de));
@@ -115,7 +114,7 @@ th abbr
 	cursor: pointer;
 }
 
-.prev, .next {
+#calendar-container .prev, #calendar-container .next {
 	position: absolute;
 	cursor: pointer;
 	padding: 3px 6px;
@@ -126,15 +125,15 @@ th abbr
     text-decoration: underline;
 }
 
-.next {
+#calendar-container .next {
 	right: 0;
 }
 
-.prev {
+#calendar-container .prev {
 	left: 0;
 }
 
-caption {
+#calendar-container caption {
 	background: #f6f6f7;
 	background: -moz-linear-gradient(top,  #f6f6f7 0%, #e5e5e8 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6f6f7), color-stop(100%,#e5e5e8));
