@@ -1,9 +1,9 @@
-; (function ($, window, document, undefined) {
-
+(function ($) {
+    'use strict';
     var pluginName = 'dateRange',
         defaults = {
-            days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-			months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
+            days : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+            months : ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
 			dateSeperator : ' - ',
 			rangePicker : true,
             readOnly : true,
@@ -11,7 +11,7 @@
             calendarBody : '<tbody></tbody>',
             calendarBodyCell : '<td></td>',
             calendarCaption : '<caption></caption>',
-            calendarContainer : '<div id="calendar-container"></div>',         
+            calendarContainer : '<div id="calendar-container"></div>',
             calendarHeader : '<thead></thead>',
             calendarHeaderCell : '<th></th>',
             calendarNavigationNext : '<span class="next" title="Next">&#9654;</span>',
@@ -19,103 +19,123 @@
             calendarRow : '<tr></tr>'
         };
 
-    Date.prototype.decrement = function(){
-    	this.setDate(this.getDate() - 1);
-    }
-    
-    Date.prototype.increment = function(){
-    	this.setDate(this.getDate() + 1);
-    }  
+    Date.prototype.decrement = function () {
+        this.setDate(this.getDate() - 1);
+    };
+
+    Date.prototype.increment = function () {
+        this.setDate(this.getDate() + 1);
+    };
 
     function Plugin(element, options) {
         this.element = element;
         this.options = $.extend({}, defaults, options);
 
-        this._defaults = defaults;
-        this._name = pluginName;
-        
-        var options = this.options, container, i, element, dateRange, over = false, open = false;
+        this.defaults = defaults;
+        this.name = pluginName;
+
+        options = this.options;
+
+        var container,
+            i,
+            dateRange,
+            over = false,
+            open = false;
 
         function generateCalendar(selectedDate) {
-            workDate =  new Date(selectedDate),
-            workDate.setDate(1),
-            workRow = $(options.calendarRow),
-            workCalendar = $(options.calendar),
-            workCalendarBody = $(options.calendarBody),
-            timeElement = '<time></time>',
-            abbrElement = '<abbr></abbr>',
+            var workDate =  new Date(selectedDate),
+                workRow = $(options.calendarRow),
+                workCalendar = $(options.calendar),
+                workCalendarBody = $(options.calendarBody),
+                timeElement = '<time></time>',
+                abbrElement = '<abbr></abbr>',
+                workDay,
+                ariaSelected = false,
+                workTime,
+                workCell,
+                parent,
+                startDate,
+                endDate,
+                workAbbr,
+                workHeaderCell,
+                workCalendarHeader,
+                workNextButton,
+                workPrevButton,
+                workCaption;
+
+            workDate.setDate(1);
             workDay = workDate.getDay();
 
-            while(workDay > 0)
-            {
-            	workDate.decrement();
-            	workDay--;
+            while (workDay > 0) {
+                workDate.decrement();
+                workDay -= 1;
             }
 
-            while(true)
-            {
-            	ariaDisabled = false, ariaSelected = false;
-            	workTime = $(timeElement).attr('datetime', workDate.toDateString()).html(workDate.getDate());
-            	workCell = $(options.calendarBodyCell).append(workTime);
-            	 
-            	if((workDate.getDate() === selectedDate.getDate()) &&
-                    workDate.getMonth() === selectedDate.getMonth()) ariaSelected = true;
+            while (true) {
+                workTime = $(timeElement).attr('datetime', workDate.toDateString()).html(workDate.getDate());
+                workCell = $(options.calendarBodyCell).append(workTime);
+                ariaSelected = false;
 
-                if(workDate.getMonth() !== selectedDate.getMonth()){
-                    workCell.attr('aria-disabled', "true");
-                }else{
-                    workCell.attr('aria-disabled', "false");
-                    workCell.on("click", function(event){                           
-                        $(this).parent().parent().find('[aria-selected="true"]').attr("aria-selected", "false");
-                        $(this).attr("aria-selected", "true");                        
-                        if(options.rangePicker){
-                            parent = $(this).parent().parent().parent().parent();
-                            startDate = parent.children().first().find('[aria-selected="true"] time').attr('datetime');
-                            endDate = parent.children(':nth-child(2)').find('[aria-selected="true"] time').attr('datetime');
-                            $(element).val(startDate + options.dateSeperator + endDate);
-                        }else{
-                            $(element).val($(this).find("time").attr("datetime"));
-                        }                   
-                        $(element).trigger('selected');
-                    });
+                if ((workDate.getDate() === selectedDate.getDate()) && workDate.getMonth() === selectedDate.getMonth()) {
+                    ariaSelected = true;
                 }
-                
+
+                if (workDate.getMonth() !== selectedDate.getMonth()) {
+                    workCell.attr('aria-disabled', "true");
+                } else {
+                    workCell.attr('aria-disabled', "false");
+                }
+
                 workCell.attr('aria-selected', ariaSelected);
+                workRow.append(workCell);
+                workDate.increment();
 
-            	workRow.append(workCell);
-            	workDate.increment();
-
-            	if(workDate.getDay() === 0)
-            	{
-            		$(workCalendarBody).append(workRow);
-            		workRow = $(options.calendarRow);
-            		if(workDate.getMonth() !== selectedDate.getMonth()) break;
-            	}
+                if (workDate.getDay() === 0) {
+                    $(workCalendarBody).append(workRow);
+                    workRow = $(options.calendarRow);
+                    if (workDate.getMonth() !== selectedDate.getMonth()) {
+                        break;
+                    }
+                }
             }
 
-			for(i=0; i < options.days.length; i++){
-            	workAbbr = $(abbrElement).attr('title', options.days[i]).html(options.days[i].substring(0,2));
-            	workHeaderCell = $(options.calendarHeaderCell).append(workAbbr).attr('role', 'columnheader').attr('scope', 'col');
-            	workCalendarHeader = $(options.calendarHeader).append(workRow.append(workHeaderCell));
+            for (i = 0; i < options.days.length; i += 1) {
+                workAbbr = $(abbrElement).attr('title', options.days[i]).html(options.days[i].substring(0, 2));
+                workHeaderCell = $(options.calendarHeaderCell).append(workAbbr).attr('role', 'columnheader').attr('scope', 'col');
+                workCalendarHeader = $(options.calendarHeader).append(workRow.append(workHeaderCell));
             }
+
+            $(workCalendarBody).find('[aria-disabled="false"]').on("click", function () {
+                $(this).parent().parent().find('[aria-selected="true"]').attr("aria-selected", "false");
+                $(this).attr("aria-selected", "true");
+                if (options.rangePicker) {
+                    parent = $(this).parent().parent().parent().parent();
+                    startDate = parent.children().first().find('[aria-selected="true"] time').attr('datetime');
+                    endDate = parent.children(':nth-child(2)').find('[aria-selected="true"] time').attr('datetime');
+                    $(element).val(startDate + options.dateSeperator + endDate);
+                } else {
+                    $(element).val($(this).find("time").attr("datetime"));
+                }
+                $(element).trigger('selected');
+            });
 
             workNextButton = $(options.calendarNavigationNext).attr('role', 'button');
             workPrevButton = $(options.calendarNavigationPrev).attr('role', 'button');
 
-            workPrevButton.on("click", function(){
+            workPrevButton.on("click", function () {
                 var newDate = new Date($(this).parent().parent().find('[aria-selected="true"] time').attr('datetime'));
-                newDate.setMonth(selectedDate.getMonth() -1);
+                newDate.setMonth(selectedDate.getMonth() - 1);
                 $(this).parent().parent().replaceWith(generateCalendar(newDate));
                 $(this).trigger('previous');
             });
 
-            workNextButton.on("click", function(){
+            workNextButton.on("click", function () {
                 var newDate = new Date($(this).parent().parent().find('[aria-selected="true"] time').attr('datetime'));
-                newDate.setMonth(selectedDate.getMonth() +1);                
+                newDate.setMonth(selectedDate.getMonth() + 1);
                 $(this).parent().parent().replaceWith(generateCalendar(newDate));
                 $(this).trigger('next');
             });
-            
+
             workCaption = $(options.calendarCaption).html(options.months[selectedDate.getMonth()] + ' ' + selectedDate.getFullYear());
             workCaption.prepend(workNextButton);
             workCaption.prepend(workPrevButton);
@@ -125,61 +145,63 @@
         }
 
         function parseRange(rangeString) {
-			rangeArray = rangeString.split(options.dateSeperator);
-			startDate = new Date(Date.parse(rangeArray[0].split(options.seperator)));
-			endDate  = new Date(Date.parse(rangeArray[1].split(options.seperator)));			
-        	return {startDate : startDate, endDate : endDate}
+            var rangeArray = rangeString.split(options.dateSeperator),
+                startDate = new Date(Date.parse(rangeArray[0].split(options.seperator))),
+                endDate  = new Date(Date.parse(rangeArray[1].split(options.seperator)));
+            return { startDate : startDate, endDate : endDate };
         }
 
-        $(this.element).focus(function() {
-        	if(!open){
+        $(this.element).focus(function () {
+            var startDate,
+                endDate;
+            if (!open) {
+                element = this;
+                startDate = new Date();
+                endDate = new Date();
+                endDate.setMonth(startDate.getMonth() + 1);
+                dateRange = { startDate : startDate, endDate : endDate };
 
-        		element = this;
-        		startDate = new Date();
-        		endDate = new Date();
-        		endDate.setMonth(startDate.getMonth() +1);
-        		dateRange = {startDate : startDate, endDate : endDate};
+                if ($(element).val() !== '') {
+                    if (options.rangePicker) {
+                        dateRange = parseRange($(this).val());
+                    } else {
+                        startDate = new Date(Date.parse($(this).val()));
+                    }
+                }
 
-        		if($(element).val() !== ''){
-        			if(options.rangePicker){
-        				dateRange = parseRange($(this).val());
-        			}else{
-        				startDate = new Date(Date.parse($(this).val()));
-        			}        				
-        		}
+                if (options.rangePicker) {
+                    container = $(options.calendarContainer);
+                    container.append(generateCalendar(dateRange.startDate));
+                    container.append(generateCalendar(dateRange.endDate));
+                } else {
+                    container = $(generateCalendar(startDate));
+                }
 
-        		if(options.rangePicker){
-        			container = $(options.calendarContainer);
-        			container.append(generateCalendar(dateRange.startDate));
-        			container.append(generateCalendar(dateRange.endDate));
-        		}else{
-        			container = $(generateCalendar(startDate));
-        		}	        	
-	        	
-				container.hover(
-					function(){ over = true; },
-					function(){ over = false; $(element).focus(); }
+                container.hover(
+                    function () { over = true; },
+                    function () { over = false; $(element).focus(); }
 				);
 
-	        	$(this).after(container);
-	        	$(this).trigger('open');
-	        	open = true;
-        	}
+
+                $(this).after(container);
+                $(this).trigger('open');
+                open = true;
+            }
         });
 
-        $(this.element).blur(function() {
-        	if(open && !over){
-	        	container.remove();
-	        	$(this).trigger('close');
-	        	open = false;
-        	}
+        $(this.element).blur(function () {
+            if (open && !over) {
+                container.remove();
+                $(this).trigger('close');
+                open = false;
+            }
         });
 
         this.init();
     }
 
     Plugin.prototype.init = function () {
-    	if(this.options.readOnly){
+        if (this.options.readOnly) {
             $(this.element).attr("readonly", "readonly");
         }
     };
@@ -190,6 +212,5 @@
                 $.data(this, 'plugin_' + pluginName, new Plugin(this, options));
             }
         });
-    }    
-
-})(jQuery, window, document);
+    };
+}(jQuery));
