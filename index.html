@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+
+  <title>conzett/jQuery.dateRange @ GitHub</title>
+
+  <style type="text/css">
+    body {
+      margin-top: 1.0em;
+      background-color: #ffffff;
+      font-family: Helvetica, Arial, FreeSans, san-serif;
+      color: #000000;
+    }
+    #container {
+      margin: 0 auto;
+      width: 700px;
+    }
+    h1 { font-size: 3.8em; color: #000000; margin-bottom: 3px; }
+    h1 .small { font-size: 0.4em; }
+    h1 a { text-decoration: none }
+    h2 { font-size: 1.5em; color: #000000; }
+    h3 { text-align: center; color: #000000; }
+    a { color: #000000; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    .download { float: right; }
+    pre { background: #000; color: #fff; padding: 15px; overflow-x: scroll;}
+    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+    input {
+      width : 210px;
+      margin-left : 10px;
+    }
+    iframe {
+      width :100%;
+      height : 260px;
+    }
+
+    #info {
+      width : 100%;
+      border-collapse : collapse;
+    }
+
+     #info caption{
+      font-weight : bold;
+    }
+
+    #info td, #info th{
+      border : 1px solid lightGray;
+      background : white;
+    }
+
+  </style>
+
+  <link rel="stylesheet" type="text/css" href="jquery.dateRange/css/style.css" />
+
+</head>
+
+<body>
+  <a href="https://github.com/conzett/jQuery.dateRange"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+  <div id="container">
+
+    <div class="download">
+      <a href="https://github.com/conzett/jquery.dateRange/zipball/master">
+        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
+      <a href="https://github.com/conzett/jquery.dateRange/tarball/master">
+        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
+    </div>
+
+    <h1><a href="https://github.com/conzett/jquery.dateRange">jQuery.dateRange</a>
+      <span class="small">by <a href="https://github.com/conzett">conzett</a></span></h1>
+
+    <div class="description">
+      A single field date range picker plugin.
+    </div>
+    
+      <p>
+      jQuery.dateRange is a jQuery plugin that provides an interface for picking a range of dates for a single text field. The generated markup is clean, accessible, and highly customizable.
+      </p>
+
+      <h2>Demo</h2>
+      <label for="demo1">Date Range</label><input id="demo1"/>
+
+      <h2>Features</h2>
+      <ul>
+        <li>No external dependancies other than jQuery</li>
+        <li>Adds WAI-ARIA roles</li>
+        <li>Use as either a date picker or the default range picker</li>
+        <li>Example CSS included</li>
+        <li>Customize any piece of generated markup</li>
+        <li>Bind to custom events</li>
+      </ul>
+    
+      <h2>Use</h2>
+
+      <h3>Initialization</h3>
+      <pre>
+&lt;script&gt;
+  $(document).ready(function() {
+    $("#demo1").dateRange();
+  });
+&lt;/script&gt;</pre>
+      <h3>Default Options</h3>
+    <pre>
+{
+  days : ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+  months : ["January","February","March","April","May","June","July","August","September","October","November","December"],
+  dateSeperator : ' - ',
+  rangePicker : true,
+  readOnly : true,
+  calendar : '&lt;table&gt;&lt;/table&gt;',
+  calendarBody : '&lt;tbody&gt;&lt;/tbody&gt;',
+  calendarBodyCell : '&lt;td&gt;&lt;/td&gt;',
+  calendarCaption : '&lt;caption&gt;&lt;/caption&gt;',
+  calendarContainer : '&lt;div id="calendar-container"&gt;&lt;/div&gt;',         
+  calendarHeader : '&lt;thead&gt;&lt;/thead&gt;',
+  calendarHeaderCell : '&lt;th&gt;&lt;/th&gt;',
+  calendarNavigationNext : '&lt;span class="next" title="Next"&gt;&#9654;&lt;/span&gt;',
+  calendarNavigationPrev : '&lt;span class="prev" title="Previous"&gt;&#9664;&lt;/span&gt;',
+  calendarRow : '&lt;tr&gt;&lt;/tr&gt;'
+}</pre>
+
+<table id="info">
+  <caption>Basic Options</caption>
+  <thead>
+    <tr><th>Option</th><th>Explanation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>days</td><td>Array of days as strings, useful for localization</td></tr>
+    <tr><td>months</td><td>Array of months as strings, useful for localization</td></tr>
+    <tr><td>dateSeperator</td><td>The string of characters between the two date strings</td></tr>
+    <tr><td>rangePicker</td><td>Set to false to use as a normal date picker</td></tr>
+    <tr><td>readOnly</td><td>Set to false to allow the text field to be typed into</td></tr>
+  </tbody>
+</table>
+
+<p>The other options change the default markup of the calendar, you can use divs or spans instead of the table markup.</p>
+
+      <h2>Custom Events</h2>
+      <p>jQuery.dateRange will raise different custom events that can be bound to these are:</p>
+      <ul>
+        <li>open</li>
+        <li>close</li>
+        <li>previous</li>
+        <li>next</li>
+        <li>selected</li>
+      </ul>
+      <p>They can be bound to either using jQuery's <code>bind</code> or as of 1.7 <code>on</code>.</p>
+      <pre>
+$(document).ready(function() {
+
+  var target = $("input").dateRange();
+
+  target.bind('selected', function() {
+    alert('User selected a date');
+  });
+
+});
+</pre>
+
+      <h2>Dependencies</h2>
+      <p>There are NO additional dependencies. (Other date-pickers often require Datejs or jQuery UI)</p>
+
+      <h2>Tests</h2>
+      <iframe src="jquery.dateRange/tests/run.html"></iframe>
+    
+      <h2>License</h2>
+      <p>You may use this under the terms of either the MIT License or the GNU General Public License (GPL) Version 2.</p>
+    
+      <h2>Authors</h2>
+      <p>Graham Conzett (conzett@gmail.com)</p>
+    
+      <h2>Contact</h2>
+      <p>Graham Conzett (conzett@gmail.com)</p>    
+
+    <h2>Download</h2>
+    <p>
+      You can download this project in either
+      <a href="https://github.com/conzett/jquery.dateRange/zipball/master">zip</a> or
+      <a href="https://github.com/conzett/jquery.dateRange/tarball/master">tar</a> formats.
+    </p>
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      by running:
+      <pre>$ git clone git://github.com/conzett/jquery.dateRange</pre>
+    </p>
+
+    <div class="footer">
+      get the source code on GitHub : <a href="https://github.com/conzett/jquery.dateRange">conzett/jquery.dateRange</a>
+    </div>
+
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+  <script src="jquery.dateRange/js/jquery.dateRange.js"></script>
+  <script>
+    $(document).ready(function() {
+      $("#demo1").dateRange();
+    });
+  </script>
+
+</body>
