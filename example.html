@@ -1,0 +1,35 @@
+<link href="css/style.css" media="screen" rel="stylesheet" type="text/css" />
+<style>
+	input {
+		width : 300px;
+	}
+</style>
+
+<input type="text"></input>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="js/jquery.dateRange.js"></script>
+
+<script>
+
+$(document).ready(function() {
+	var element = $("input").dateRange({
+		rangePicker : true
+	});
+
+	/*
+	element.bind('open', function() {
+		console.log("open called");
+	});
+
+	element.bind('close', function() {
+		console.log("close called");
+	});	
+
+	element.on('selected', function() {
+		console.log("selected called");
+	});*/
+
+});
+
+</script>
