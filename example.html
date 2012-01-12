@@ -1,35 +1,41 @@
-<link href="css/style.css" media="screen" rel="stylesheet" type="text/css" />
-<style>
-	input {
-		width : 300px;
-	}
-</style>
+<html>
+	<head>
+		<title>Example</title>
+		<link href="css/style.css" media="screen" rel="stylesheet" type="text/css" />
+		<style>
+			input {
+				width : 300px;
+			}
+		</style>
+	</head>
 
-<input type="text"></input>
+	<body>
+		<input type="text"></input>		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script src="js/jquery.dateRange.js"></script>
+		<script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-<script src="js/jquery.dateRange.js"></script>
+		$(document).ready(function() {
+			var element = $("input").dateRange({
+				rangePicker : true,
+				appendSelector : "body"
+			});
 
-<script>
+			/*
+			element.bind('open', function() {
+				console.log("open called");
+			});
 
-$(document).ready(function() {
-	var element = $("input").dateRange({
-		rangePicker : true
-	});
+			element.bind('close', function() {
+				console.log("close called");
+			});	
 
-	/*
-	element.bind('open', function() {
-		console.log("open called");
-	});
+			element.on('selected', function() {
+				console.log("selected called");
+			});
+			*/
+		});
 
-	element.bind('close', function() {
-		console.log("close called");
-	});	
-
-	element.on('selected', function() {
-		console.log("selected called");
-	});*/
-
-});
-
-</script>
+		</script>
+	</body>
+</html>

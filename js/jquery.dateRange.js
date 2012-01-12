@@ -7,6 +7,7 @@
             dateSeperator : ' - ',
             rangePicker : true,
             readOnly : true,
+            appendSelector : null,
             calendar : '<table></table>',
             calendarBody : '<tbody></tbody>',
             calendarBodyCell : '<td></td>',
@@ -182,8 +183,12 @@
                     function () { over = false; $(element).focus(); }
 				);
 
+                if(options.appendSelector) {
+                    $(options.appendSelector).append(container);
+                }else{
+                    $(this).after(container);
+                }
 
-                $(this).after(container);
                 $(this).trigger('open');
                 open = true;
             }
