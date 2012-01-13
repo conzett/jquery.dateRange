@@ -5,20 +5,20 @@
 		<style>
 			input {
 				width : 300px;
+				margin-bottom : 3px;
 			}
 		</style>
 	</head>
 
 	<body>
-		<input type="text"></input>		
+		<p>Lorem ipsum etc. etc. four score and seven years ago <input type="text"></input></p>	
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 		<script src="js/jquery.dateRange.js"></script>
 		<script>
 
 		$(document).ready(function() {
 			var element = $("input").dateRange({
-				rangePicker : true,
-				appendSelector : "body"
+				rangePicker : true
 			});
 
 			/*

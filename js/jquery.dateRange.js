@@ -31,10 +31,8 @@
     function Plugin(element, options) {
         this.element = element;
         this.options = $.extend({}, defaults, options);
-
         this.defaults = defaults;
         this.name = pluginName;
-
         options = this.options;
 
         var container,
@@ -152,9 +150,22 @@
             return { startDate : startDate, endDate : endDate };
         }
 
+        function positionBelow(element, target) {
+            var offset = target.offset();
+            offset.top += target.outerHeight(true);
+            element.offset(offset);
+        }
+
+        this.reposition = function () {
+            if (open) {
+                positionBelow(container, $(':focus'));
+            }
+        };
+
         $(this.element).focus(function () {
             var startDate,
                 endDate;
+
             if (!open) {
                 element = this;
                 startDate = new Date();
@@ -183,11 +194,13 @@
                     function () { over = false; $(element).focus(); }
 				);
 
-                if(options.appendSelector) {
+                if (options.appendSelector) {
                     $(options.appendSelector).append(container);
-                }else{
+                } else {
                     $(this).after(container);
                 }
+
+                positionBelow(container, $(this));
 
                 $(this).trigger('open');
                 open = true;
@@ -206,9 +219,15 @@
     }
 
     Plugin.prototype.init = function () {
+        var reposition = this.reposition;
+
         if (this.options.readOnly) {
             $(this.element).attr("readonly", "readonly");
         }
+
+        $(window).resize(function () {
+            reposition();
+        });
     };
 
     $.fn[pluginName] = function (options) {
