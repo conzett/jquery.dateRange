@@ -28,6 +28,7 @@
         dateSeperator : ' - ',
         rangePicker : true,
         readOnly : true,
+        startDay : 0,
         calendar : '<table></table>',
         calendarBody : '<tbody></tbody>',
         calendarBodyCell : '<td></td>',

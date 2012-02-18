@@ -8,6 +8,7 @@
             rangePicker : true,
             readOnly : true,
             appendSelector : null,
+            startDay : 0,
             calendar : '<table></table>',
             calendarBody : '<tbody></tbody>',
             calendarBodyCell : '<td></td>',
@@ -41,6 +42,10 @@
             over = false,
             open = false;
 
+        for (i = 0; i < options.startDay; i += 1) {
+            options.days.push(options.days.shift());
+        }
+
         function generateCalendar(selectedDate) {
             var workDate =  new Date(selectedDate),
                 workRow = $(options.calendarRow),
@@ -60,14 +65,15 @@
                 workCalendarHeader,
                 workNextButton,
                 workPrevButton,
-                workCaption;
+                workCaption,
+                count = 1;
 
             workDate.setDate(1);
             workDay = workDate.getDay();
 
-            while (workDay > 0) {
+            while (workDay !== options.startDay) {
                 workDate.decrement();
-                workDay -= 1;
+                workDay = (workDay > 0) ? workDay - 1 : 6;
             }
 
             while (true) {
@@ -89,7 +95,7 @@
                 workRow.append(workCell);
                 workDate.increment();
 
-                if (workDate.getDay() === 0) {
+                if (workDate.getDay() === options.startDay) {
                     $(workCalendarBody).append(workRow);
                     workRow = $(options.calendarRow);
                     if (workDate.getMonth() !== selectedDate.getMonth()) {
