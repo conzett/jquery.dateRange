@@ -192,7 +192,9 @@
                     container.append(generateCalendar(dateRange.startDate));
                     container.append(generateCalendar(dateRange.endDate));
                 } else {
-                    container = $(generateCalendar(startDate));
+                    container = $(options.calendarContainer);
+                    container = container.append($(generateCalendar(startDate)));
+
                 }
 
                 container.hover(
