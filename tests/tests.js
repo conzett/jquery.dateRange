@@ -2,12 +2,14 @@
 (function() {
 
   this.pavlov.specify("DateRange", function() {
-    var container, containerId, endDate, startDate, wait, _ref;
-    _ref = [], startDate = _ref[0], endDate = _ref[1];
+    var container, containerId, endDate, startDate, wait;
     containerId = "#calendar-container";
     container = function() {
       return $('body').find(containerId);
     };
+    startDate = new Date();
+    endDate = new Date();
+    endDate.setMonth(startDate.getMonth() + 1);
     wait = function(time) {
       var curDate, date, _results;
       date = new Date();
@@ -32,7 +34,7 @@
         });
       });
       describe("with default options", function() {
-        describe("when the user focuses on input field", function() {
+        return describe("when the user focuses on input field", function() {
           before(function() {
             $('#target').focus();
             wait(500);
@@ -49,13 +51,22 @@
           it("should append the calendar after the target input field", function() {
             return assert($('#target').next().attr("id")).isEqualTo(containerId.slice(1));
           });
-          it("should position the calendar below the target input field", function() {
-            var containerOffset, target, targetOffset;
-            target = $('#target');
-            containerOffset = container().offset();
-            targetOffset = target.offset();
-            assert(targetOffset.left).isEqualTo(containerOffset.left);
-            return assert(targetOffset.top).isEqualTo(containerOffset.top - target.outerHeight(true));
+          describe("should position the calendar below the target input field", function() {
+            var containerOffset, targetOffset, _ref;
+            _ref = [], containerOffset = _ref[0], targetOffset = _ref[1];
+            before(function() {
+              containerOffset = container().offset();
+              return targetOffset = $('#target').offset();
+            });
+            it("by default", function() {
+              assert(targetOffset.left).isEqualTo(containerOffset.left);
+              return assert(targetOffset.top).isEqualTo(containerOffset.top - $('#target').outerHeight(true));
+            });
+            return it("even when the window size changes", function() {
+              window.resizeTo(300, 600);
+              assert(targetOffset.left).isEqualTo(containerOffset.left);
+              return assert(targetOffset.top).isEqualTo(containerOffset.top - $('#target').outerHeight(true));
+            });
           });
           it("should generate two calendars", function() {
             return assert(container().find("table").length).isEqualTo(2, "2 tables found");
@@ -66,40 +77,53 @@
             todaysDateString = (new Date()).toDateString();
             return assert(todaysDateString).isEqualTo(highlitedDateString);
           });
-          return it("should highlight the endDate", function() {
-            var highlitedDateString, monthFromTodaysDateString, today;
+          it("should highlight the endDate", function() {
+            var highlitedDateString, monthFromTodaysDateString;
             highlitedDateString = container().find("table:eq(1)").find("[aria-selected='true']").find("time").attr("datetime");
-            today = new Date();
-            endDate = today;
-            endDate.setMonth(today.getMonth() + 1);
             monthFromTodaysDateString = endDate.toDateString();
             return assert(monthFromTodaysDateString).isEqualTo(highlitedDateString);
           });
-        });
-        return describe("when the user clicks on a date on the calendar", function() {
-          before(function() {
-            return $('td time[datetime="' + startDate.toDateString() + '"]').parent().click();
+          describe("when the user clicks on a date on the calendar", function() {
+            before(function() {
+              var selector, todayCell, todayCellParent;
+              selector = "td time[datetime='" + (startDate.toDateString()) + "']";
+              todayCell = $(selector);
+              todayCellParent = todayCell.parent();
+              return todayCellParent.click();
+            });
+            return it("should write the correct startDate into the input field", function() {
+              return equal($('#target').val(), startDate.toDateString() + " - " + endDate.toDateString(), "Correct value is now in text field");
+            });
           });
-          it("should write the clicked startDate into the input field", function() {
-            return equal($('#target').val(), startDate.toDateString() + " - " + endDate.toDateString(), "Correct value is now in text field");
+          return describe("when the user clicks away", function() {
+            before(function() {
+              return $("#target").focus().blur();
+            });
+            return it("should hide the calendar", function() {
+              return assert(container().length).isEqualTo(0);
+            });
           });
-          it("should write the clicked endDate into the input field");
-          return it("should close the calendar");
         });
       });
-      describe("with custom options", function() {
-        it("should append the calendar into the target container if appendSelector is specified");
-        return it("should disable the target input field if readonly is true");
-      });
-      describe("when the window size changes", function() {
-        return it("should reposition the calendar under the input field");
-      });
-      describe("when the user clicks away", function() {
-        return it("should hide the calendar");
-      });
-      return describe("generated calendar", function() {
-        it("should have the user specified startDate");
-        return it("should have the user specified endDate");
+      return describe("with custom options", function() {
+        it("should append the calendar into a new appendage if appendSelector is specified", function() {
+          $('#target').remove();
+          $('#qunit-fixture').append('<div id="new_appendage"/><input type="text" id="target"/>');
+          $('#target').dateRange({
+            appendSelector: "#new_appendage"
+          });
+          $("#target").focus();
+          return assert($('#new_appendage > div').attr("id")).isEqualTo(containerId.slice(1));
+        });
+        return it("should disable the target input field if readonly is true", function() {
+          $('#target').remove();
+          $('#qunit-fixture').append('<input type="text" id="target"/>');
+          $('#target').dateRange({
+            readonly: true
+          });
+          $("#target").focus();
+          return assert($("#target").attr("readonly")).isEqualTo("readonly");
+        });
       });
     });
   });
