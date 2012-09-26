@@ -42,10 +42,22 @@
 
 					assert(targetOffset.top).isEqualTo(containerOffset.top - target.outerHeight(true))
 
-				it "should disable the target input field if readonly is true"
-				it "should generate two calendars if the daterange option is true"
-				it "should highlight the startDate"
-				it "should highlight the endDate"
+				it "should generate two calendars", ->
+					assert(container().find("table").length).isEqualTo(2, "2 tables found")
+
+				it "should highlight the startDate", ->
+					highlitedDateString = container().find("table:first").find("[aria-selected='true']").find("time").attr("datetime")
+					todaysDateString = (new Date()).toDateString()
+					assert(todaysDateString).isEqualTo(highlitedDateString)
+
+				it "should highlight the endDate", ->
+					highlitedDateString = container().find("table:eq(1)").find("[aria-selected='true']").find("time").attr("datetime")
+					today = (new Date())
+					endDate = today
+					endDate.setMonth(today.getMonth() + 1)
+					monthFromTodaysDateString = endDate.toDateString()
+
+					assert(monthFromTodaysDateString).isEqualTo(highlitedDateString)
 
 			describe "when the user clicks on a date on the calendar", ->
 				before ->
@@ -58,6 +70,8 @@
 
 		describe "with custom options", ->
 			it "should append the calendar into the target container if appendSelector is specified"
+			it "should disable the target input field if readonly is true"
+
 
 		describe "when the window size changes", ->
 			it "should reposition the calendar under the input field"
