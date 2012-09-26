@@ -2,9 +2,12 @@
 (function() {
 
   this.pavlov.specify("DateRange", function() {
-    var container, endDate, startDate, wait, _ref;
+    var container, containerId, endDate, startDate, wait, _ref;
     _ref = [], startDate = _ref[0], endDate = _ref[1];
-    container = $('body').find("#calendar-container");
+    containerId = "#calendar-container";
+    container = function() {
+      return $('body').find(containerId);
+    };
     wait = function(time) {
       var curDate, date, _results;
       date = new Date();
@@ -20,31 +23,45 @@
         return $('#target').dateRange();
       });
       describe("when the plugin is initialized", function() {
-        it("should decorate the Date prototype");
-        it("should position the calendar under the target input field");
-        it("should disable the target input field if readonly is true");
+        it("should decorate the Date prototype", function() {
+          assert(Date.prototype.increment).isDefined();
+          return assert(Date.prototype.decrement).isDefined();
+        });
         return it("should not insert the calendar containers yet", function() {
-          return equal(container.length, 0, "Expect 0 calendar containers before focus");
+          return equal(container().length, 0, "Expect 0 calendar containers before focus");
         });
       });
-      describe("when the user focuses on input field", function() {
-        before(function() {
-          $('#target').focus();
-          wait(500);
-          startDate = new Date();
-          endDate = new Date();
-          return endDate.setMonth(startDate.getMonth() + 1);
+      describe("with default options", function() {
+        describe("when the user focuses on input field", function() {
+          before(function() {
+            $('#target').focus();
+            wait(500);
+            startDate = new Date();
+            endDate = new Date();
+            return endDate.setMonth(startDate.getMonth() + 1);
+          });
+          it("should insert the calendar container", function() {
+            return equal(container().length, 1, "Expect 1 calendar container after focus");
+          });
+          it("should clear the initial value of the target field", function() {
+            return equal($('#target').val(), "", "Expect initial value to be empty");
+          });
+          it("should append the calendar after the target input field", function() {
+            return assert($('#target').next().attr("id")).isEqualTo(containerId.slice(1));
+          });
+          it("should position the calendar below the target input field", function() {
+            var containerOffset, target, targetOffset;
+            target = $('#target');
+            containerOffset = container().offset();
+            targetOffset = target.offset();
+            assert(targetOffset.left).isEqualTo(containerOffset.left);
+            return assert(targetOffset.top).isEqualTo(containerOffset.top - target.outerHeight(true));
+          });
+          it("should disable the target input field if readonly is true");
+          it("should generate two calendars if the daterange option is true");
+          it("should highlight the startDate");
+          return it("should highlight the endDate");
         });
-        it("should insert the calendar container", function() {
-          return equal(container.length, 1, "Expect 1 calendar container after focus");
-        });
-        it("should clear the initial value of the target field", function() {
-          return equal($('#target').val(), "", "Expect initial value to be empty");
-        });
-        it("should append the calendar into the target container");
-        it("should generate two calendars if the daterange option is true");
-        it("should highlight the startDate");
-        it("should highlight the endDate");
         return describe("when the user clicks on a date on the calendar", function() {
           before(function() {
             return $('td time[datetime="' + startDate.toDateString() + '"]').parent().click();
@@ -55,6 +72,9 @@
           it("should write the clicked endDate into the input field");
           return it("should close the calendar");
         });
+      });
+      describe("with custom options", function() {
+        return it("should append the calendar into the target container if appendSelector is specified");
       });
       describe("when the window size changes", function() {
         return it("should reposition the calendar under the input field");
